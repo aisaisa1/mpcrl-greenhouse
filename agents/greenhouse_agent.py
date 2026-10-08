@@ -109,9 +109,10 @@ class GreenhouseSampleAgent(GreenhouseAgent):
 class GreenhouseLearningAgent(LstdQLearningAgent, GreenhouseAgent):
     """An agent controlling the greenhouse who can learn the MPC policy using LSTD Q-learning."""
 
-    def update(self) -> Optional[str]:
+    def update(self):
         stats = super().update()
-        if stats is not None:
-            if "t_wall_total" in stats:
-                self.time_step_computation_time.append(stats["t_wall_total"])
+
+        if stats is None:
+            return None
+
         return None if stats["success"] else stats["return_status"]
